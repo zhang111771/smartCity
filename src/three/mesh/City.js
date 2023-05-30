@@ -7,17 +7,19 @@ import * as THREE from 'three'
 
 export default function createCity(){
   const gltfLoader = new GLTFLoader();
- gltfLoader.load('./model/city.glb',(gltf)=>{
-  const cityMaterial=new THREE.MeshBasicMaterial({
-    color:0x00ffff
-  })
-  cityMaterial.onBeforeCompile=(shader)=>{
-    console.log(shader)
-  }
-  // modifyCityMaterial(cityMaterial)
+ gltfLoader.load('./model/cqcity.glb',(gltf)=>{
+ 
+
+
   gltf.scene.traverse((child)=>{
+    
     if(child.isMesh){
+      const cityMaterial=new THREE.MeshBasicMaterial({
+        color:0x0c0ef6
+      })
+      
       child.material=cityMaterial
+      modifyCityMaterial(child)
     }
   })
   scene.add(gltf.scene)
