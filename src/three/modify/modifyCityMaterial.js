@@ -11,6 +11,8 @@ export default function modifyCityMaterial(mesh){
     )
     addGradColor(shader,mesh)
    addSpread(shader)
+   addLightLine(shader)
+   addToTopLine(shader)
   }
 }
 export function addGradColor(shader,mesh){
@@ -93,6 +95,76 @@ export function addSpread(shader){
   gsap.to(shader.uniforms.uSpreadTime,{
     value:800,
     duration:2,
+    ease:'none',
+    repeat:-1
+  })
+}
+export function addLightLine(shader){
+
+  //扩散的时间
+  shader.uniforms.uLightLineTime={
+    value:-2000
+  }
+  //设置条带的宽度
+  shader.uniforms.uLightLineWidth={
+    value:40
+  }
+  shader.fragmentShader=shader.fragmentShader.replace(
+    '#include <common>',
+    `
+    #include <common>
+    uniform float uLightLineTime;
+    uniform float uLightLineWidth;
+    `
+  )
+  shader.fragmentShader=shader.fragmentShader.replace(' //#end#',
+  `
+  float LightLineMix=-(vPosition.x+vPosition.z-uLightLineTime)*(vPosition.x+vPosition.z-uLightLineTime)+uLightLineWidth;
+
+  if(LightLineMix>0.0){
+    gl_FragColor=mix(gl_FragColor,vec4(1,1,1,1),LightLineMix/uLightLineWidth);
+  }
+  //#end#
+  `
+  )
+  gsap.to(shader.uniforms.uLightLineTime,{
+    value:1500,
+    duration:4,
+    ease:'none',
+    repeat:-1
+  })
+}
+export function addToTopLine(shader){
+
+  //扩散的时间
+  shader.uniforms.uToTopLineTime={
+    value:0
+  }
+  //设置条带的宽度
+  shader.uniforms.uToTopLineWidth={
+    value:5
+  }
+  shader.fragmentShader=shader.fragmentShader.replace(
+    '#include <common>',
+    `
+    #include <common>
+    uniform float uToTopLineTime;
+    uniform float uToTopLineWidth;
+    `
+  )
+  shader.fragmentShader=shader.fragmentShader.replace(' //#end#',
+  `
+  float toTopLineMix=-(vPosition.y-uToTopLineTime)*(vPosition.y-uToTopLineTime)+uToTopLineWidth;
+
+  if(toTopLineMix>0.0){
+    gl_FragColor=mix(gl_FragColor,vec4(1,1,1,1),toTopLineMix/uToTopLineWidth);
+  }
+  //#end#
+  `
+  )
+  gsap.to(shader.uniforms.uToTopLineTime,{
+    value:100,
+    duration:6,
     ease:'none',
     repeat:-1
   })
