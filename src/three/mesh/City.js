@@ -9,7 +9,7 @@ import * as THREE from 'three'
 import FlyLine from './FlyLine'
 import FlyLineShader from './FlyLineShader'
 import LightRadar from './LightRadar'
-
+import AlarmSprite from './AlarmSprite'
 export default function createCity(){
   const gltfLoader = new GLTFLoader();
  gltfLoader.load('./model/cqcity.glb',(gltf)=>{
@@ -44,10 +44,17 @@ export default function createCity(){
   const flyLineShader=new FlyLineShader()
   scene.add(flyLineShader.mesh)
   //添加光墙
-  const lightWall=new LightWall()
-  scene.add(lightWall.mesh)
+  // const lightWall=new LightWall()
+  // scene.add(lightWall.mesh)
   //添加雷达
-  const lightRadar=new LightRadar()
-  scene.add(lightRadar.mesh)
+  // const lightRadar=new LightRadar()
+  // scene.add(lightRadar.mesh)
+  //添加警告标示
+  // const alarmSprite=new AlarmSprite()
+  // scene.add(alarmSprite.mesh)
+   //封装点击事件
+  //  alarmSprite.onClick((e)=>{
+  //   console.log('警告',e)
+  //  })
  })
 }

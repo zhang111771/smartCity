@@ -4,8 +4,8 @@ import vertex from '@/shader/lightWall/vertex.glsl'
 import fragment from '@/shader/lightWall/fragment.glsl'
 
 export default class LightWall{
-  constructor(){
-    this.geometry=new THREE.CylinderGeometry(5,5,2,32,1,true)
+  constructor(radius=5,length=2,position={x:0,z:0},color=0xff0000){
+    this.geometry=new THREE.CylinderGeometry(radius,radius,2,32,1,true)
 
  
    
@@ -25,14 +25,20 @@ export default class LightWall{
       }
     })
     this.mesh=new THREE.Mesh(this.geometry,this.material)
-    this.mesh.position.set(0,2,0)
+    this.mesh.position.set(position.x,2,position.z)
     //光墙动画
     gsap.to(this.mesh.scale,{
-      x:2,
-      z:2,
+      x:length,
+      z:length,
       duration:1,
       repeat:-1,
       yoyo:true
     })
+  }
+  remove(){
+    this.mesh.remove()
+    this.mesh.removeFromParent()
+    this.mesh.geometry.dispose()
+    this.mesh.material.dispose()
   }
 }

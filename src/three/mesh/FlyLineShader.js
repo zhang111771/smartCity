@@ -4,12 +4,12 @@ import vertex from '@/shader/flyLine/vertex.glsl'
 import fragment from '@/shader/flyLine/fragment.glsl'
 
 export default class FlyLine{
-  constructor(color=0xffff00){
+  constructor(position={x:0,z:0},color=0x00ffff,lineWidth=0.2){
     //根据点生成曲线
     let linePoints=[
       new THREE.Vector3(0,0,0,),
-      new THREE.Vector3(-5,4,0,),
-      new THREE.Vector3(-10,0,0,)
+      new THREE.Vector3(position.x/2,4,position.z/2),
+      new THREE.Vector3(position.x,0,position.z)
 
 
     ]
@@ -51,5 +51,11 @@ export default class FlyLine{
       ease:'none',
       duration:1
     })
+  }
+  remove(){
+    this.mesh.remove()
+    this.mesh.removeFromParent()
+    this.geometry.dispose()
+    this.material.dispose()
   }
 }
